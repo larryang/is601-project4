@@ -5,7 +5,7 @@ from flask import Flask
 from flask import render_template
 from flask_bootstrap import Bootstrap5 # pylint: disable=no-name-in-module
 from app.cli import create_database
-from app.db import db
+from app.db import database, db
 from app.db.models import User
 from app.simple_pages import simple_pages
 from app.util.logger_config import log_conf
@@ -41,10 +41,11 @@ def create_app():
     # load routes/webpages
     app.register_blueprint(simple_pages)
 
-    db_dir = "database/db.sqlite"
-    app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///" + os.path.abspath(db_dir)
-    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    # setup database
+    app.register_blueprint(database)
     db.init_app(app)
+
+    # login/security
 
 
     #----------------------------------------
