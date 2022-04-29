@@ -4,6 +4,7 @@
         "pylint",
         "pytest",
         "runtest",
-        "usedocker"
+        "usedocker",
+        "werkzeug"
     ]
 }
