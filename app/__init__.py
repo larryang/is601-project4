@@ -8,6 +8,7 @@ from app.cli import create_database
 from app.db import db
 from app.db.models import User
 from app.simple_pages import simple_pages
+from app.context_processor import utility_context_processor
 
 
 def page_not_found(e):
@@ -23,8 +24,12 @@ def create_app():
     app.secret_key = 'This is an INSECURE secret!! DO NOT use this in production!!'
 
     app.register_error_handler(404, page_not_found)
+    app.context_processor(utility_context_processor)
 
     bootstrap = Bootstrap5(app) # pylint: disable=unused-variable
+
+    # load routes/webpages
+    app.register_blueprint(simple_pages)
 
     db_dir = "database/db.sqlite"
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///" + os.path.abspath(db_dir)
@@ -33,9 +38,5 @@ def create_app():
 
     # add command function to cli commands
     app.cli.add_command(create_database)
-
-    @app.route('/')
-    def hello():
-        return 'Hello, World!'
 
     return app
