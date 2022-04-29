@@ -32,6 +32,7 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNavDropdown">
                     <div class="navbar-nav mr-auto">
+                        {# add back in as pages are added 
                         {% if current_user.is_authenticated %}
                             {{ render_nav_item('auth.dashboard','Dashboard' ) }}
                             {% if current_user.is_admin %}
@@ -44,9 +45,11 @@
 
                         {{ render_nav_item('simple_pages.about','About') }}
                         {{ render_nav_item('simple_pages.welcome','Welcome') }}
+                        #}
                     </div>
                 </div>
                 <div class="navbar-nav d-flex">
+                    {# 
                     {% if current_user.is_authenticated %}
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button"
@@ -63,6 +66,7 @@
                         {{ render_nav_item('auth.register','Register' ) }}
                         {{ render_nav_item('auth.login','Login' ) }}
                     {% endif %}
+                    #}
                 </div>
             </nav>
         </header>
@@ -83,7 +87,7 @@
     {{ bootstrap.load_js() }}
 {% endblock %}
 <footer class="text-center mt-5">
-    Environment: {{ deployment_environment }} - Copyright: {{ year }} {{ format_price(100) }}
+    Environment: {{ deployment_environment }} - Copyright: {{ year }}
 </footer>
 </body>
 </html>
