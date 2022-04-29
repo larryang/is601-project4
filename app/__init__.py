@@ -8,7 +8,7 @@ from app.cli import create_database
 from app.db import db
 from app.db.models import User
 from app.simple_pages import simple_pages
-from app.context_processor import utility_context_processor
+from app.util.context_processor import utility_context_processor
 
 
 def page_not_found(e):
@@ -21,6 +21,13 @@ def page_not_found(e):
 def create_app():
     """Create and configure an instance of the Flask application."""
     app = Flask(__name__)
+    if  os.environ.get("FLASK_ENV") == "production":
+        app.config.from_object("app.config.ProductionConfig")
+    elif os.environ.get("FLASK_ENV") == "development":
+        app.config.from_object("app.config.DevelopmentConfig")
+    elif os.environ.get("FLASK_ENV") == "testing":
+        app.config.from_object("app.config.TestingConfig")
+
     app.secret_key = 'This is an INSECURE secret!! DO NOT use this in production!!'
 
     app.register_error_handler(404, page_not_found)
