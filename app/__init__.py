@@ -8,6 +8,7 @@ from app.cli import create_database
 from app.db import db
 from app.db.models import User
 from app.simple_pages import simple_pages
+from app.util.logger_config import log_conf
 from app.util.context_processor import utility_context_processor
 
 
@@ -28,11 +29,13 @@ def create_app():
     elif os.environ.get("FLASK_ENV") == "testing":
         app.config.from_object("app.config.TestingConfig")
 
-    app.secret_key = 'This is an INSECURE secret!! DO NOT use this in production!!'
-
     app.register_error_handler(404, page_not_found)
     app.context_processor(utility_context_processor)
+    app.register_blueprint(log_conf)
 
+
+    #----------------------------------------
+    # web stuff
     bootstrap = Bootstrap5(app) # pylint: disable=unused-variable
 
     # load routes/webpages
@@ -43,7 +46,9 @@ def create_app():
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.init_app(app)
 
+
+    #----------------------------------------
     # add command function to cli commands
     app.cli.add_command(create_database)
-
+    
     return app
