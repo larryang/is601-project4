@@ -1,10 +1,13 @@
-""" test routes """
+""" basic test for routes """
+# each page that gets created, add simple GET and make sure it exists
+#    additional functionality should be in route specific file
+
 
 def test_request_index(client):
     """This tests the index """
     response = client.get("/")
     assert response.status_code == 200
-    assert b"Hello, World!" in response.data
+    assert b"<h1>Index Page</h1>" in response.data
 
 
 #when base.html is working properly (current_user is undefined error)
