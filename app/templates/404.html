@@ -3,9 +3,8 @@
      or any file you want-->
 {% block title %}Page Not Found{% endblock %}
 {% block content %}
+  <h1>404</h1>
+  <h2>Oops! Looks like the page doesn't exist anymore (or never existed)</h2>
+  <a href="/"><p>Click Here</a> to go to the Home Page</p>
 
-  <h2>Oops! Looks like the page doesn't exist anymore</h2>
-  <a href="{{ url_for('simple_pages.index') }}"><p>Click Here</a>To go to the Home Page</p>
-
-<!-- {{ url_for('simple_pages.index') }} is a var which returns url of index.html-->
 {% endblock %}
