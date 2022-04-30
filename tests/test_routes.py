@@ -1,7 +1,8 @@
 """ basic test for routes """
 # each page that gets created, add simple GET and make sure it exists
 #    additional functionality should be in route specific file
-
+#
+#   !!! make sure to add an entry in test_index.py for navbar !!!
 
 def test_get_about(client):
     """This tests /about """
@@ -12,6 +13,7 @@ def test_get_about(client):
 
 def test_get_dashboard(client):
     """This tests /dashboard """
+    # redirect to /login since not authenticated
     response = client.get("/dashboard", follow_redirects=True)
     assert response.status_code == 200
     assert b"<h2>Login</h2>" in response.data
@@ -25,10 +27,17 @@ def test_get_index(client):
 
 
 def test_get_login(client):
-    """This tests the index """
+    """This tests the login """
     response = client.get("/login")
     assert response.status_code == 200
     assert b"<h2>Login</h2>" in response.data
+
+
+def test_get_registration(client):
+    """ this tests /registration """
+    response = client.get("/register")
+    assert response.status_code == 200
+    assert b"<h2>Register</h2>" in response.data
 
 
 def test_page_not_found(client):

@@ -1,5 +1,4 @@
 """This test authorization pages"""
-import pytest
 from app import db
 from app.db.models import User
 from tests.user_fixture import test_user  # pylint: disable=unused-import
@@ -23,7 +22,6 @@ def test_add_user(test_user):
     assert new_user.email == new_email
 
 
-@pytest.mark.skip(reason="/register not implemented yet")
 def test_register(client):
     """ POST to /register """
     new_email = 'newuser@test.test'
@@ -35,7 +33,7 @@ def test_register(client):
         'password' : new_password,
         'confirm' : new_password
     }
-    resp = client.post('register', data=data)
+    resp = client.post('/register', data=data)
 
     assert resp.status_code == 302
 
