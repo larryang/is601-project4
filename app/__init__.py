@@ -28,7 +28,10 @@ def page_not_found(e):
 def create_app():
     """Create and configure an instance of the Flask application."""
     app = Flask(__name__)
-    
+
+    # https://pythonhosted.org/Flask-WTF/csrf.html
+    CSRFProtect(app)
+
     #----------------------------------------
     # basic config
     #
@@ -45,29 +48,30 @@ def create_app():
     #----------------------------------------
     # web stuff
     #
-    bootstrap = Bootstrap5(app) # pylint: disable=unused-variable
 
-    # setup database
-    app.register_blueprint(database)
-    db.init_app(app)
-
-    # login/security
     # https://flask-login.readthedocs.io/en/latest/  <-login manager
     login_manager.init_app(app)
     login_manager.login_view = "auth.login"
 
     # Needed for CSRF protection of form submissions and WTF Forms
     # https://wtforms.readthedocs.io/en/3.0.x/
-    csrf = CSRFProtect(app)
+    
+
+    # setup models/database
+    app.register_blueprint(database)
+
+    # load routes/webpages
+    bootstrap = Bootstrap5(app) # pylint: disable=unused-variable
+    app.register_error_handler(404, page_not_found)
+    app.register_blueprint(simple_pages)
+    app.register_blueprint(auth)
+
+
+    db.init_app(app)
     api_v1_cors_config = {
         "methods": ["OPTIONS", "GET", "POST"],
     }
     CORS(app, resources={"/api/*": api_v1_cors_config})
-
-    # load routes/webpages
-    app.register_error_handler(404, page_not_found)
-    app.register_blueprint(simple_pages)
-    app.register_blueprint(auth)
 
     #----------------------------------------
     # add command function to cli commands

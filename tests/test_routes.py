@@ -17,7 +17,14 @@ def test_get_login(client):
     assert b"<h2>Login</h2>" in response.data
 
 
-#when base.html is working properly (current_user is undefined error)
+def test_get_about(client):
+    """This tests /about """
+    response = client.get("/about")
+    assert response.status_code == 200
+    assert b"<h1>About</h1>" in response.data
+
+
+
 def test_page_not_found(client):
     """This tests getting a 404 for /foobar """
     response = client.get("/foobar]")
