@@ -16,3 +16,16 @@ def test_login(client, test_user):
     # if login, redirect to /dashboard
     assert resp.status_code == 302
     assert b'<h1>Redirecting...</h1>' in resp.data
+
+
+def test_dashboard(application, test_user):
+    """ test access to dashboard when logged in """
+    # pylint: disable=redefined-outer-name
+
+    with application.test_client(user=test_user) as client:
+        resp = client.get('/dashboard')
+
+    # check if successful at getting /dashboard
+    assert resp.status_code == 200
+    assert b'<h2>Dashboard</h2>' in resp.data
+    assert b'<p>Welcome: testuser@test.com</p>' in resp.data
