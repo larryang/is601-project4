@@ -3,6 +3,20 @@
 #    additional functionality should be in route specific file
 
 
+def test_get_about(client):
+    """This tests /about """
+    response = client.get("/about")
+    assert response.status_code == 200
+    assert b"<h1>About</h1>" in response.data
+
+
+def test_get_dashboard(client):
+    """This tests /dashboard """
+    response = client.get("/dashboard", follow_redirects=True)
+    assert response.status_code == 200
+    assert b"<h2>Login</h2>" in response.data
+
+
 def test_get_index(client):
     """This tests the index """
     response = client.get("/")
@@ -15,14 +29,6 @@ def test_get_login(client):
     response = client.get("/login")
     assert response.status_code == 200
     assert b"<h2>Login</h2>" in response.data
-
-
-def test_get_about(client):
-    """This tests /about """
-    response = client.get("/about")
-    assert response.status_code == 200
-    assert b"<h1>About</h1>" in response.data
-
 
 
 def test_page_not_found(client):
