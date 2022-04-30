@@ -43,4 +43,4 @@ def setup_logs():
 
     # log to logfile misc_debug.log
     log = logging.getLogger("misc_debug")
-    log.debug("Configured logging for ENV=%s", current_app.config["ENV"])
+    log.debug("[%s] Configured logging", current_app.config["ENV"])

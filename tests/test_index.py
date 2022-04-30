@@ -43,3 +43,4 @@ def test_navbar(resp):
     """ tests navbar """
     assert resp.status_code == 200
     assert match_nav("Home", resp.data)
+    assert match_nav("Login", resp.data)
