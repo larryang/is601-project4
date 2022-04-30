@@ -1,4 +1,4 @@
-""" test for index.html"""
+""" test for index page """
 # pylint: disable=redefined-outer-name
 import datetime
 import re
@@ -32,7 +32,7 @@ def test_context_variables_year(resp):
 
 def match_nav(text, data):
     """ use regular expression to verify navbar link """
-    regex = f"<a class=\\\"nav-item nav-link active\\\" aria-current=\\\"page\\\"\\s*href=\\\"/\\\">\\s*{text}\\s*</a>" # pylint: disable=line-too-long
+    regex = f"<a class=\\\"nav-item nav-link.*\\n\\s*href=\\\"{text}" # pylint: disable=line-too-long
     print("regex %s", regex)
     my_regex = re.compile(regex)
     print("html: %s", data.decode('utf-8'))
@@ -42,5 +42,7 @@ def match_nav(text, data):
 def test_navbar(resp):
     """ tests navbar """
     assert resp.status_code == 200
-    assert match_nav("Home", resp.data)
-    assert match_nav("Login", resp.data)
+    assert match_nav("/", resp.data)
+    assert match_nav("/about", resp.data)
+    assert match_nav("/login", resp.data)
+    assert not match_nav("/foobar", resp.data)
