@@ -32,14 +32,15 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNavDropdown">
                     <div class="navbar-nav mr-auto">
+                        {{ render_nav_item('simple_pages.index', 'Home') }}
+                        
                         {% if current_user.is_authenticated %}
-                            {{ render_nav_item('auth.dashboard','Dashboard' ) }}
+                            {{ render_nav_item('auth.dashboard','Dashboard') }}
                             {% if current_user.is_admin %}
-                                {{ render_nav_item('auth.browse_users','User Management' ) }}
+                                {# {{ render_nav_item('auth.browse_users','User Management' ) }} #}
                             {% endif %}
-
                         {% else %}
-                            {{ render_nav_item('simple_pages.index', 'Home') }}
+                            {{ render_nav_item('auth.register','Register') }}
                         {% endif %}
 
                         {{ render_nav_item('simple_pages.about','About') }}
