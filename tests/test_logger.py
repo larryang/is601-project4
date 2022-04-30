@@ -41,4 +41,4 @@ def test_misc_debug_log():
     filepath = os.path.join(LOGDIR, 'misc_debug.log')
 
     with open(filepath, encoding="utf-8") as file:
-        assert 'misc_debug: Just configured logging' in file.read()
+        assert '[DEBUG] misc_debug: [testing] Configured logging' in file.read()
