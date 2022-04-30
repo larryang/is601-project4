@@ -1,7 +1,7 @@
 """ implement user authorization/login routes """
-from flask import Blueprint, render_template, redirect, url_for, flash
-from flask_login import login_user, current_user
-
+from flask import Blueprint, render_template, redirect, url_for, flash, abort
+from flask_login import login_user, login_required, current_user
+from jinja2 import TemplateNotFound
 from app.auth.forms import login_form
 from app.db import db
 from app.db.models import User
@@ -28,3 +28,13 @@ def login():
             flash("Welcome", 'success')
             return redirect(url_for('auth.dashboard'))
     return render_template('login.j2.html', form=form)
+
+
+@auth.route('/dashboard')
+@login_required
+def dashboard():
+    """ render user's dashboard page """
+    try:
+        return render_template('dashboard.j2.html')
+    except TemplateNotFound:
+        abort(404)
