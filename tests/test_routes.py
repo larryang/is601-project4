@@ -3,11 +3,18 @@
 #    additional functionality should be in route specific file
 
 
-def test_request_index(client):
+def test_get_index(client):
     """This tests the index """
     response = client.get("/")
     assert response.status_code == 200
     assert b"<h1>Index Page</h1>" in response.data
+
+
+def test_get_login(client):
+    """This tests the index """
+    response = client.get("/login")
+    assert response.status_code == 200
+    assert b"<h2>Login</h2>" in response.data
 
 
 #when base.html is working properly (current_user is undefined error)
