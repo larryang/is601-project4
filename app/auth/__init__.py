@@ -27,4 +27,4 @@ def login():
             login_user(user)
             flash("Welcome", 'success')
             return redirect(url_for('auth.dashboard'))
-    return render_template('login.html', form=form)
+    return render_template('login.j2.html', form=form)
