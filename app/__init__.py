@@ -22,7 +22,7 @@ def page_not_found(e):
     """ handle 404 """
     # pylint: disable=invalid-name
     # TODO log e when logging implemented
-    return render_template("404.html"), 404
+    return render_template("404.j2.html"), 404
 
 
 def create_app():

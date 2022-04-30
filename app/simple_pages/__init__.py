@@ -9,7 +9,7 @@ simple_pages = Blueprint('simple_pages', __name__, template_folder='templates')
 def index():
     """ root index.html """
     try:
-        return render_template('index.html', form=login_form())
+        return render_template('index.j2.html', form=login_form())
     except TemplateNotFound:
         abort(404)
 
@@ -18,6 +18,6 @@ def index():
 def about():
     """ about.html """
     try:
-        return render_template('about.html')
+        return render_template('about.j2.html')
     except TemplateNotFound:
         abort(404)
