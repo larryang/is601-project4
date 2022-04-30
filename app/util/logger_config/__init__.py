@@ -4,15 +4,16 @@ from logging.config import dictConfig
 import os
 import json
 import flask
+from flask import current_app
 import app
 from app import config
 
 log_conf = flask.Blueprint('log_conf', __name__)
 
 
-def add_path_to_logfile(logging_config):
+def add_path_to_logfile(logdir, logging_config):
     """ add logging path to logging filename """
-    logdir = app.config.Config.LOG_DIR
+    # TODO refactor to use template JSON, probably jinja2
     handlers = logging_config['handlers']
     for handler_key in handlers:
         handler = handlers[handler_key]
@@ -30,10 +31,9 @@ def setup_logs():
     with open(filepath, encoding="utf-8") as file:
         logging_config = json.load(file)
 
-    add_path_to_logfile(logging_config)
+    logdir = current_app.config['LOG_DIR']
+    add_path_to_logfile(logdir, logging_config)
 
-    # set the name of the apps log folder to logs
-    logdir = config.Config.LOG_DIR
     # make a directory if it doesn't exist
     if not os.path.exists(logdir):
         os.mkdir(logdir)
@@ -43,4 +43,4 @@ def setup_logs():
 
     # log to logfile misc_debug.log
     log = logging.getLogger("misc_debug")
-    log.debug("Just configured logging")
+    log.debug("Configured logging for ENV=%s", current_app.config["ENV"])
