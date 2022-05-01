@@ -2,7 +2,7 @@
 import pytest
 from werkzeug.security import generate_password_hash
 from app import db
-from app.db.models import User
+from app.db.models import User, Transaction
 
 TEST_EMAIL = 'testuser@test.com'
 TEST_PASSWORD = 'testtest'
@@ -24,3 +24,4 @@ def test_user(application):
         # delete user and verify
         db.session.delete(user) # pylint: disable=no-member
         assert db.session.query(User).count() == 0 # pylint: disable=no-member
+        assert db.session.query(Transaction).count() == 0 # pylint: disable=no-member
