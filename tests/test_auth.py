@@ -16,6 +16,7 @@ def test_login(client, test_user):
     # if login, redirect to /dashboard
     assert resp.status_code == 302
     assert b'<h1>Redirecting...</h1>' in resp.data
+    assert test_user.is_authenticated()
 
 
 def test_dashboard(application, test_user):
@@ -29,3 +30,15 @@ def test_dashboard(application, test_user):
     assert resp.status_code == 200
     assert b'<h2>Dashboard</h2>' in resp.data
     assert b'<p>Welcome: testuser@test.com</p>' in resp.data
+
+
+def test_logout(client, test_user):
+    """ GET to login """
+    # pylint: disable=unused-argument,redefined-outer-name
+
+    resp = client.get('/logout')
+
+    # if login, redirect to index
+    assert resp.status_code == 302
+    assert b'<h1>Redirecting...</h1>' in resp.data
+    assert test_user.is_authenticated() is False

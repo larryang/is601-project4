@@ -1,6 +1,6 @@
 """ implement user authorization/login routes """
 from flask import Blueprint, render_template, redirect, url_for, flash, abort
-from flask_login import login_user, login_required, current_user
+from flask_login import login_user, login_required, logout_user, current_user
 from jinja2 import TemplateNotFound
 from werkzeug.security import generate_password_hash
 
@@ -30,6 +30,18 @@ def login():
             flash("Welcome", 'success')
             return redirect(url_for('auth.dashboard'))
     return render_template('login.j2.html', form=form)
+
+
+@auth.route("/logout")
+@login_required
+def logout():
+    """ Logout the current user """
+    user = current_user
+    user.authenticated = False
+    db.session.add(user)
+    db.session.commit()
+    logout_user()
+    return redirect(url_for('simple_pages.index'))
 
 
 @auth.route('/dashboard', methods=['GET'])
