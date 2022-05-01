@@ -4,6 +4,7 @@
 #
 #   !!! make sure to add an entry in test_index.py for navbar !!!
 
+
 def test_get_about(client):
     """This tests /about """
     response = client.get("/about")
@@ -29,6 +30,13 @@ def test_get_index(client):
 def test_get_login(client):
     """This tests the login """
     response = client.get("/login")
+    assert response.status_code == 200
+    assert b"<h2>Login</h2>" in response.data
+
+
+def test_get_logout(client):
+    """This tests the logout """
+    response = client.get("/logout", follow_redirects=True)
     assert response.status_code == 200
     assert b"<h2>Login</h2>" in response.data
 

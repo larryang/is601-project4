@@ -8,6 +8,7 @@ from app.db import db
 
 class User(UserMixin, db.Model):
     """ User model """
+    # pylint: disable = no-member, invalid-overridden-method
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -28,10 +29,10 @@ class User(UserMixin, db.Model):
         self.registered_on = datetime.utcnow()
 
     def is_authenticated(self):
-        return True
+        return self.authenticated
 
     def is_active(self):
-        return True
+        return self.active
 
     def is_anonymous(self):
         return False
@@ -40,10 +41,12 @@ class User(UserMixin, db.Model):
         return self.id
 
     def set_password(self, password):
+        """ take password and store hash """
         self.password = generate_password_hash(password)
 
     def check_password(self, password):
+        """ check password against hash """
         return check_password_hash(self.password, password)
 
     def __repr__(self):
-        return '<User %r>' % self.email
+        return f'<User {self.email}>'
