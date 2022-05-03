@@ -1,5 +1,5 @@
 """This test authorization pages"""
-from tests.user_fixture import test_user, TEST_EMAIL, TEST_PASSWORD # pylint: disable=unused-import
+from tests.user_fixture import test_user, TEST_EMAIL, TEST_PASSWORD, add_transaction # pylint: disable=unused-import
 
 
 def test_login(client, test_user):
@@ -19,9 +19,9 @@ def test_login(client, test_user):
     assert test_user.is_authenticated()
 
 
-def test_dashboard(application, test_user):
+def test_dashboard(application, test_user, add_transaction):
     """ test access to dashboard when logged in """
-    # pylint: disable=redefined-outer-name
+    # pylint: disable=redefined-outer-name,unused-argument
 
     with application.test_client(user=test_user) as client:
         resp = client.get('/dashboard')
@@ -30,6 +30,11 @@ def test_dashboard(application, test_user):
     assert resp.status_code == 200
     assert b'<h2>Dashboard</h2>' in resp.data
     assert b'<p>Welcome: testuser@test.com</p>' in resp.data
+
+    # veriby table
+    assert b'<th scope="col">Amount</th>' in resp.data
+    assert b'<th scope="col">User Id</th>' in resp.data
+    assert b'<th scope="col">Transaction Type</th>' in resp.data
 
 
 def test_logout(client, test_user):

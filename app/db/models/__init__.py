@@ -69,7 +69,7 @@ class Transaction(db.Model):
     __tablename__ = 'transactions'
 
     id = db.Column(db.Integer, primary_key=True)
-    amount = db.Column(db.DECIMAL, nullable=False, default=0)
+    amount = db.Column(db.Numeric(10, 2), nullable=False, default=0)
     description = db.Column(db.String(300), nullable=True, unique=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     transaction_type = db.Column(Enum(TransactionTypeEnum), nullable=True, unique=False)
