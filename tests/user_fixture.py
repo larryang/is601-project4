@@ -35,8 +35,8 @@ def add_transaction(test_user):  # pylint: disable = redefined-outer-name
     # write
     transactions = []
     transactions.append( Transaction(100, TransactionTypeEnum.CREDIT) )
-    transactions.append( Transaction(10, TransactionTypeEnum.DEBIT) )
-    transactions.append( Transaction(20, TransactionTypeEnum.DEBIT) )
+    transactions.append( Transaction(-10, TransactionTypeEnum.DEBIT) )
+    transactions.append( Transaction(-20, TransactionTypeEnum.DEBIT) )
     transactions.append( Transaction(15, TransactionTypeEnum.CREDIT) )
 
     test_user.transactions += transactions
