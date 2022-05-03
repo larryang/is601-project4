@@ -9,7 +9,7 @@ from tests.user_fixture import test_user, TEST_EMAIL, add_transaction # pylint: 
 def test_modify_transactions(application, test_user, add_transaction):
     """ test basic db stuff """
     # pylint: disable = redefined-outer-name, unused-argument
-    assert db.session.query(Transaction).count() == 2 # pylint: disable=no-member
+    assert db.session.query(Transaction).count() == 4 # pylint: disable=no-member
 
     # read
     trans1 = Transaction.query.filter_by(
@@ -26,7 +26,7 @@ def test_modify_transactions(application, test_user, add_transaction):
     # delete
     db.session.delete(trans2) # pylint: disable=no-member
     db.session.commit() # pylint: disable=no-member
-    assert db.session.query(Transaction).count() == 1 # pylint: disable=no-member
+    assert db.session.query(Transaction).count() == 3 # pylint: disable=no-member
 
 
 def test_load_transactions_csv(test_user):
