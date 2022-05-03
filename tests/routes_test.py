@@ -48,6 +48,13 @@ def test_get_registration(client):
     assert b"<h2>Register</h2>" in response.data
 
 
+def test_get_transaction_upload(client):
+    """ tests /transactions/upload """
+    response = client.get("/transactions/upload")
+    # redirect because not authenticated
+    assert response.status_code == 302
+
+
 def test_page_not_found(client):
     """This tests getting a 404 for /foobar """
     response = client.get("/foobar]")

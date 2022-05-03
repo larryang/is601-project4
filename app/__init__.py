@@ -12,6 +12,7 @@ from app.cli import create_database
 from app.db import database, db
 from app.db.models import User
 from app.simple_pages import simple_pages
+from app.transactions import transactions
 from app.util.logger_config import log_conf
 from app.util.context_processor import utility_context_processor
 
@@ -65,6 +66,7 @@ def create_app():
     app.register_error_handler(404, page_not_found)
     app.register_blueprint(simple_pages)
     app.register_blueprint(auth)
+    app.register_blueprint(transactions)
 
 
     db.init_app(app)
