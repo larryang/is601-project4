@@ -1,6 +1,7 @@
 """ test transactions model """
+import os
 from flask import current_app
-from app import db
+from app import config, db
 from app.db.models import Transaction, TransactionTypeEnum
 from app.transactions import open_and_parse_csv
 from tests.user_fixture import test_user, TEST_EMAIL # pylint: disable=unused-import
@@ -60,7 +61,29 @@ def test_get_transactions_upload_auth(application, test_user):
     """ access page while auth"""
     # pylint: disable=unused-argument,redefined-outer-name
 
+    root = config.Config.BASE_DIR
+    filename = 'transactions.csv'
+    filepath = os.path.join(root, '../tests/', filename)
+
+    # cleanup upload
+    upload_folder = config.Config.UPLOAD_FOLDER
+    upload_file = os.path.join(upload_folder, filename)
+    if os.path.exists(upload_file):
+        os.remove(upload_file)
+
     with application.test_client(user=test_user) as client:
         resp = client.get("/transactions/upload")
         assert resp.status_code == 200
         assert b'<h2>Upload Transactions</h2>' in resp.data
+
+        with open(filepath, 'rb') as file:
+            data = {
+                'file': (file, filename),
+                #'csrf_token': current_
+            }
+            resp = client.post('/transactions/upload', data=data)
+
+    assert db.session.query(Transaction).count() == 28 # pylint: disable=no-member
+
+    item = Transaction.query.filter_by(amount=-2324).first() # pylint: disable=no-member
+    assert item.transaction_type == TransactionTypeEnum.DEBIT
