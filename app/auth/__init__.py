@@ -50,9 +50,10 @@ def dashboard():
     """ render user's dashboard page """
     userid = current_user.get_id()
     data = Transaction.query.filter_by(user_id=userid).all()
+    balance = 0
 
     try:
-        return render_template('dashboard.j2.html', data=data)
+        return render_template('dashboard.j2.html', data=data, balance=balance)
     except TemplateNotFound:
         abort(404)
 

@@ -83,4 +83,3 @@ def test_get_transactions_upload_auth(application, test_user):
     filepath = os.path.join(logdir, 'upload_transactions.log')
     with open(filepath, encoding="utf-8") as file:
         assert '[<User testuser@test.com>] opened and parsing filepath:[' in file.read()
-
