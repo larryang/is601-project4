@@ -19,7 +19,7 @@ def test_login(client, test_user):
     assert test_user.is_authenticated()
 
 
-def test_dashboard(application, test_user, add_transaction):
+def test_dashboard_transaction_table_and_balance(application, test_user, add_transaction):
     """ test access to dashboard when logged in """
     # pylint: disable=redefined-outer-name,unused-argument
 

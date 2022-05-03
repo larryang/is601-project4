@@ -47,7 +47,7 @@ def test_load_transactions_csv(test_user):
     assert item.transaction_type == TransactionTypeEnum.DEBIT
 
 
-def test_get_transactions_upload_auth(application, test_user):
+def test_transactions_upload_and_balance(application, test_user):
     """ access page while auth"""
     # pylint: disable=unused-argument,redefined-outer-name
 
@@ -71,7 +71,10 @@ def test_get_transactions_upload_auth(application, test_user):
                 'file': (file, filename),
                 #'csrf_token': current_
             }
-            resp = client.post('/transactions/upload', data=data)
+            resp = client.post('/transactions/upload', data=data, follow_redirects=True)
+
+    # check for balance
+    assert b'10601' in resp.data
 
     assert db.session.query(Transaction).count() == 28 # pylint: disable=no-member
 
