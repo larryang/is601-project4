@@ -4,21 +4,11 @@ from flask import current_app
 from app import config, db
 from app.db.models import Transaction, TransactionTypeEnum
 from app.transactions import open_and_parse_csv
-from tests.user_fixture import test_user, TEST_EMAIL # pylint: disable=unused-import
+from tests.user_fixture import test_user, TEST_EMAIL, add_transaction # pylint: disable=unused-import
 
-def test_modify_transactions(application, test_user):
+def test_modify_transactions(application, test_user, add_transaction):
     """ test basic db stuff """
     # pylint: disable = redefined-outer-name, unused-argument
-    user = test_user
-    assert db.session.query(Transaction).count() == 0 # pylint: disable=no-member
-
-    # write
-    transactions = []
-    transactions.append( Transaction(100, TransactionTypeEnum['CREDIT']) )
-    transactions.append( Transaction(20, TransactionTypeEnum['DEBIT']) )
-
-    user.transactions += transactions
-    db.session.commit() # pylint: disable=no-member
     assert db.session.query(Transaction).count() == 2 # pylint: disable=no-member
 
     # read

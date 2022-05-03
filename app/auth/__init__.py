@@ -6,7 +6,7 @@ from werkzeug.security import generate_password_hash
 
 from app.auth import forms
 from app.db import db
-from app.db.models import User
+from app.db.models import Transaction, User
 
 auth = Blueprint('auth', __name__, template_folder='templates')
 
@@ -48,8 +48,11 @@ def logout():
 @login_required
 def dashboard():
     """ render user's dashboard page """
+    userid = current_user.get_id()
+    data = Transaction.query.filter_by(user_id=userid).all()
+
     try:
-        return render_template('dashboard.j2.html')
+        return render_template('dashboard.j2.html', data=data)
     except TemplateNotFound:
         abort(404)
 
