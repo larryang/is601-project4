@@ -57,6 +57,7 @@ def dashboard():
     result = db.session.query(func.sum(Transaction.amount)) \
         .filter(Transaction.user_id == user_id) \
         .group_by(Transaction.transaction_type).all()
+    
     if result:
         balance = result[0][0] + result[1][0]
 
