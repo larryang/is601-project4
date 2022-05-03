@@ -54,3 +54,13 @@ def test_load_transactions_csv(test_user):
 
     item = Transaction.query.filter_by(amount=-2324).first() # pylint: disable=no-member
     assert item.transaction_type == TransactionTypeEnum.DEBIT
+
+
+def test_get_transactions_upload_auth(application, test_user):
+    """ access page while auth"""
+    # pylint: disable=unused-argument,redefined-outer-name
+
+    with application.test_client(user=test_user) as client:
+        resp = client.get("/transactions/upload")
+        assert resp.status_code == 200
+        assert b'<h2>Upload Transactions</h2>' in resp.data
