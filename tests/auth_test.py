@@ -31,7 +31,10 @@ def test_dashboard(application, test_user, add_transaction):
     assert b'<h2>Dashboard</h2>' in resp.data
     assert b'<p>Welcome: testuser@test.com</p>' in resp.data
 
-    # veriby table
+    # check balance
+    assert b'<p>Account Balance: 0 </p>' in resp.data
+
+    # verify table
     assert b'<th scope="col">Amount</th>' in resp.data
     assert b'<th scope="col">User Id</th>' in resp.data
     assert b'<th scope="col">Transaction Type</th>' in resp.data

@@ -9,10 +9,12 @@
     <p>Welcome: {{ current_user.email }}</p>
     </div>
 
-
-    <a href="{{ url_for("transactions.transactions_upload") }}" class="btn col-3 mb-5 btn-info" role="button">Upload Transactions</a>
-
     <h2>Transactions</h2>
+
+    <a href="{{ url_for("transactions.transactions_upload") }}" class="btn col-2 mb-5 btn-info" role="button">Upload Transactions</a>
+
+    <p>Account Balance: {{ balance }} </p>
+
     {{ render_table(data) }}
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
