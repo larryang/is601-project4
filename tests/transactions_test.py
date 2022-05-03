@@ -77,3 +77,10 @@ def test_get_transactions_upload_auth(application, test_user):
 
     item = Transaction.query.filter_by(amount=-2324).first() # pylint: disable=no-member
     assert item.transaction_type == TransactionTypeEnum.DEBIT
+
+    # check to capture logging of CSV parsing
+    logdir = current_app.config['LOG_DIR']
+    filepath = os.path.join(logdir, 'upload_transactions.log')
+    with open(filepath, encoding="utf-8") as file:
+        assert '[<User testuser@test.com>] opened and parsing filepath:[' in file.read()
+
