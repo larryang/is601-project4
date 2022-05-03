@@ -57,7 +57,9 @@ def dashboard():
     result = db.session.query(func.sum(Transaction.amount)) \
         .filter(Transaction.user_id == user_id) \
         .group_by(Transaction.transaction_type).all()
-    balance = result[0][0] + result[1][0]
+
+    if result:
+        balance = result[0][0] + result[1][0]
 
     try:
         return render_template('dashboard.j2.html', data=data, balance=balance)
