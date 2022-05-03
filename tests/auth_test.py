@@ -32,7 +32,7 @@ def test_dashboard(application, test_user, add_transaction):
     assert b'<p>Welcome: testuser@test.com</p>' in resp.data
 
     # check balance
-    assert b'<p>Account Balance: 0 </p>' in resp.data
+    assert b'<p>Account Balance: 85.00 </p>' in resp.data
 
     # verify table
     assert b'<th scope="col">Amount</th>' in resp.data

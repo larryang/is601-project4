@@ -2,11 +2,13 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, abort
 from flask_login import login_user, login_required, logout_user, current_user
 from jinja2 import TemplateNotFound
+from sqlalchemy import func
 from werkzeug.security import generate_password_hash
 
 from app.auth import forms
 from app.db import db
-from app.db.models import Transaction, User
+from app.db.models import Transaction, TransactionTypeEnum, User
+
 
 auth = Blueprint('auth', __name__, template_folder='templates')
 
@@ -48,9 +50,19 @@ def logout():
 @login_required
 def dashboard():
     """ render user's dashboard page """
-    userid = current_user.get_id()
-    data = Transaction.query.filter_by(user_id=userid).all()
-    balance = 0
+    user_id = current_user.get_id()
+
+    data = Transaction.query.filter_by(user_id=user_id).all()
+
+    #
+    credit = db.session.query(func.sum(Transaction.amount)).\
+        filter(Transaction.user_id == user_id,
+            Transaction.transaction_type == TransactionTypeEnum.CREDIT)
+    debit = db.session.query(func.sum(Transaction.amount)).\
+        filter(Transaction.user_id == user_id,
+            Transaction.transaction_type == TransactionTypeEnum.DEBIT)
+    balance = credit.first()[0] - debit.first()[0]
+
 
     try:
         return render_template('dashboard.j2.html', data=data, balance=balance)
