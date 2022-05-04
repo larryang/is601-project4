@@ -60,6 +60,8 @@ def dashboard():
 
     if result:
         balance = result[0][0] + result[1][0]
+    else:
+        balance = 0
 
     try:
         return render_template('dashboard.j2.html', data=data, balance=balance)

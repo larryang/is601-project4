@@ -19,6 +19,19 @@ def test_login(client, test_user):
     assert test_user.is_authenticated()
 
 
+def test_dashboard_with_zero_balance(application, test_user):
+    """ test access to dashboard as new user """
+       # pylint: disable=redefined-outer-name
+    with application.test_client(user=test_user) as client:
+        resp = client.get('/dashboard')
+
+    # check if successful at getting /
+    assert resp.status_code == 200
+    assert b'<h2>Dashboard</h2>' in resp.data
+    assert b'<p>Welcome: testuser@test.com</p>' in resp.data
+    assert b'<p>Account Balance: 0 </p>' in resp.data
+
+
 def test_dashboard_transaction_table_and_balance(application, test_user, add_transaction):
     """ test access to dashboard when logged in """
     # pylint: disable=redefined-outer-name,unused-argument
@@ -26,7 +39,7 @@ def test_dashboard_transaction_table_and_balance(application, test_user, add_tra
     with application.test_client(user=test_user) as client:
         resp = client.get('/dashboard')
 
-    # check if successful at getting /dashboard
+    # check if successful at getting /
     assert resp.status_code == 200
     assert b'<h2>Dashboard</h2>' in resp.data
     assert b'<p>Welcome: testuser@test.com</p>' in resp.data
