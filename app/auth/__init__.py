@@ -7,7 +7,7 @@ from werkzeug.security import generate_password_hash
 
 from app.auth import forms
 from app.db import db
-from app.db.models import Transaction, TransactionTypeEnum, User
+from app.db.models import Transaction, TransactionType, User
 
 
 auth = Blueprint('auth', __name__, template_folder='templates')

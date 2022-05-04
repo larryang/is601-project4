@@ -2,7 +2,7 @@
 import pytest
 from werkzeug.security import generate_password_hash
 from app import db
-from app.db.models import TransactionTypeEnum, User, Transaction
+from app.db.models import TransactionType, User, Transaction
 
 TEST_EMAIL = 'testuser@test.com'
 TEST_PASSWORD = 'testtest'
@@ -34,10 +34,10 @@ def add_transaction(test_user):  # pylint: disable = redefined-outer-name
 
     # write
     transactions = []
-    transactions.append( Transaction(100, TransactionTypeEnum.CREDIT) )
-    transactions.append( Transaction(-10, TransactionTypeEnum.DEBIT) )
-    transactions.append( Transaction(-20, TransactionTypeEnum.DEBIT) )
-    transactions.append( Transaction(15, TransactionTypeEnum.CREDIT) )
+    transactions.append( Transaction(100, TransactionType.CREDIT) )
+    transactions.append( Transaction(-10, TransactionType.DEBIT) )
+    transactions.append( Transaction(-20, TransactionType.DEBIT) )
+    transactions.append( Transaction(15, TransactionType.CREDIT) )
 
     test_user.transactions += transactions
     db.session.commit() # pylint: disable=no-member
