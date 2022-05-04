@@ -10,3 +10,5 @@ services:
     command: ["flask", "run"]
     volumes:
       - .:/home/myuser
+    environment:
+      - FLASK_ENV=testing
