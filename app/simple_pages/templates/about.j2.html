@@ -1,6 +1,34 @@
 {% extends "base.j2.html" %}
 <article>{% block content %}
-    <h1>About</h1>
-    {{ lipsum (n=5, html=True, min=20, max=100) }}
+<div class="container">
+    <div class="row">
+        <h1>About</h1>
+    </div>
+    <div class="row">
+        <div class="col-2">
+            <img src="{{ url_for('static', filename='images/ly_simpsons.png') }}" class="img-fluid"
+                alt="LY23's Caricature Portrait" />
+        </div>
+        <div class="col">
+            <p>
+                Hello, I'm a student at NJIT working on a Graduate Certificate in Software Engineering. I have a BS in
+                EECS
+                and an MS in Computer Engineering, and am currently working as a software engineer mostly doing C/C++
+                programming in embedded systems in wireless telecommunications.
+            </p>
+            <hr>
+            <p>
+                I hope to learn modern web application programming, and technologies such as Python, Flask, and
+                Docker. I will also gain more exposure to modern software development concepts such Object 
+                Orientated Programming, Patterns, and Continious Integration/Continious Deployment.
+            </p>
+            <hr>
+        </div>
+        <div class="col-2">
+            <img src="{{ url_for('static', filename='images/cognitive_hazard.png') }}" class="img-fluid"
+                alt="Cognitive Hazard Icon" />
+        </div>
+    </div>
+</div>
 {% endblock %}
 </article>

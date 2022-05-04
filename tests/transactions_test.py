@@ -2,7 +2,7 @@
 import os
 from flask import current_app
 from app import config, db
-from app.db.models import Transaction, TransactionTypeEnum
+from app.db.models import Transaction, TransactionType
 from app.transactions import open_and_parse_csv
 from tests.user_fixture import test_user, TEST_EMAIL, add_transaction # pylint: disable=unused-import
 
@@ -13,7 +13,7 @@ def test_modify_transactions(application, test_user, add_transaction):
 
     # read
     trans1 = Transaction.query.filter_by(
-        transaction_type = TransactionTypeEnum.CREDIT
+        transaction_type = TransactionType.CREDIT
         ).first()
     assert trans1.amount == 100
 
@@ -21,7 +21,7 @@ def test_modify_transactions(application, test_user, add_transaction):
     trans1.amount = 200
     db.session.commit() # pylint: disable=no-member
     trans2 = Transaction.query.filter_by(amount=200).first()
-    assert trans2.transaction_type == TransactionTypeEnum.CREDIT
+    assert trans2.transaction_type == TransactionType.CREDIT
 
     # delete
     db.session.delete(trans2) # pylint: disable=no-member
@@ -44,7 +44,7 @@ def test_load_transactions_csv(test_user):
     assert db.session.query(Transaction).count() == 28 # pylint: disable=no-member
 
     item = Transaction.query.filter_by(amount=-2324).first() # pylint: disable=no-member
-    assert item.transaction_type == TransactionTypeEnum.DEBIT
+    assert item.transaction_type == TransactionType.DEBIT
 
 
 def test_transactions_upload_and_balance(application, test_user):
@@ -79,7 +79,7 @@ def test_transactions_upload_and_balance(application, test_user):
     assert db.session.query(Transaction).count() == 28 # pylint: disable=no-member
 
     item = Transaction.query.filter_by(amount=-2324).first() # pylint: disable=no-member
-    assert item.transaction_type == TransactionTypeEnum.DEBIT
+    assert item.transaction_type == TransactionType.DEBIT
 
     # check to capture logging of CSV parsing
     logdir = current_app.config['LOG_DIR']

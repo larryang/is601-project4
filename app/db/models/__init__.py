@@ -57,7 +57,7 @@ class User(UserMixin, db.Model):
 
 
 @enum.unique
-class TransactionTypeEnum(enum.Enum):
+class TransactionType(enum.Enum):
     """ Enum for column """
     CREDIT = 'CREDIT'
     DEBIT = 'DEBIT'
@@ -72,7 +72,7 @@ class Transaction(db.Model):
     amount = db.Column(db.Numeric(10, 2), nullable=False, default=0)
     description = db.Column(db.String(300), nullable=True, unique=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    transaction_type = db.Column(Enum(TransactionTypeEnum), nullable=True, unique=False)
+    transaction_type = db.Column(Enum(TransactionType), nullable=True, unique=False)
 
     user = relationship("User", back_populates="transactions", uselist=False)
 

@@ -9,7 +9,7 @@ from jinja2 import TemplateNotFound
 import werkzeug
 import wtforms
 from app import db
-from app.db.models import Transaction, TransactionTypeEnum
+from app.db.models import Transaction, TransactionType
 
 def open_and_parse_csv(filepath):
     """ utility function to open and parse a CSV """
@@ -27,7 +27,7 @@ def open_and_parse_csv(filepath):
         csv_header = Transaction.csv_headers()
         for row in csv_table:
             amount = row[csv_header[0]]
-            transaction_type = TransactionTypeEnum[row[csv_header[1]]]
+            transaction_type = TransactionType[row[csv_header[1]]]
 
             transaction_list.append(Transaction(amount, transaction_type))
 
