@@ -5,6 +5,10 @@
 #   !!! make sure to add an entry in test_index.py for navbar !!!
 
 
+import os
+from app import config
+
+
 def test_get_about(client):
     """This tests /about """
     response = client.get("/about")
@@ -53,6 +57,24 @@ def test_get_transaction_upload(client):
     response = client.get("/transactions/upload")
     # redirect because not authenticated
     assert response.status_code == 302
+
+
+def test_post_transaction_upload(client):
+    """ tests /transactions/upload while unauthorized"""
+
+    root = config.Config.BASE_DIR
+    filename = 'transactions.csv'
+    filepath = os.path.join(root, '../tests/', filename)
+
+    with open(filepath, 'rb') as file:
+        data = {
+            'file': (file, filename),
+            #'csrf_token': current_
+        }
+        resp = client.post('/transactions/upload', data=data)
+
+    # redirect because not authenticated
+    assert resp.status_code == 302
 
 
 def test_page_not_found(client):
